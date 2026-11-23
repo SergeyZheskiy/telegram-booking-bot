@@ -3,7 +3,7 @@
 [![CI](https://github.com/SergeyZheskiy/telegram-booking-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/SergeyZheskiy/telegram-booking-bot/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-3776ab?logo=python&logoColor=white)
 ![aiogram](https://img.shields.io/badge/aiogram-3-26a5e4?logo=telegram&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-37%20passing-brightgreen)
 
 **Appointment booking for small businesses, in Telegram.** Barbershops, beauty salons, tutors, repair shops: clients pick a service, a day and a free time slot in a few taps; staff get notified instantly and see their agenda with one command. No website, no app to install.
 
@@ -126,7 +126,7 @@ booking_bot/
 ## Testing
 
 ```bash
-pytest -q     # 36 tests, ~0.2s, no network and no bot token needed
+pytest -q     # 37 tests, ~0.2s, no network and no bot token needed
 ```
 
 Besides unit tests for scheduling, config validation and the repository, `tests/test_bot_flow.py` feeds **real Telegram `Update` objects through the real aiogram dispatcher**, with only the Bot API session replaced by a recorder. It plays a full conversation — `/start` → service → day → time → confirm — and asserts on the exact buttons shown, the admin notification and the database row; plus stale-button races, forged payloads, cancellation rights and admin-only commands.

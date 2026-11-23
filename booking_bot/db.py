@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from pathlib import Path
 
 import aiosqlite
 
@@ -73,6 +74,8 @@ class Repository:
 
     @classmethod
     async def open(cls, path: str) -> "Repository":
+        if path != ":memory:":
+            Path(path).parent.mkdir(parents=True, exist_ok=True)  # SQLite creates the file, not its folder
         # isolation_level=None: we issue BEGIN ourselves, so the transaction boundaries are explicit
         conn = await aiosqlite.connect(path, isolation_level=None)
         conn.row_factory = aiosqlite.Row

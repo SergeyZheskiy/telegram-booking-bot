@@ -73,3 +73,10 @@ async def test_due_reminders(repo):
     assert [b.id for b in await repo.due_reminders(NOW, NOW + 2 * H)] == [soon.id]
     await repo.mark_reminded(soon.id)
     assert await repo.due_reminders(NOW, NOW + 2 * H) == []
+
+
+async def test_open_creates_missing_parent_folder(tmp_path):
+    path = tmp_path / "data" / "bookings.db"
+    repo = await Repository.open(str(path))
+    await repo.close()
+    assert path.exists()
