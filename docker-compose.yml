@@ -1,0 +1,14 @@
+services:
+  bot:
+    build: .
+    env_file: .env
+    environment:
+      CONFIG_PATH: /app/config.toml
+      DATABASE_PATH: /app/data/bookings.db
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+      - botdata:/app/data
+    restart: unless-stopped
+
+volumes:
+  botdata:

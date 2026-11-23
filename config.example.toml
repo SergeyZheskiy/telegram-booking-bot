@@ -1,0 +1,46 @@
+# Copy to config.toml and adjust. Secrets (BOT_TOKEN, ADMIN_IDS) go in .env, not here.
+
+[business]
+name = "Demo Barbershop"
+timezone = "Europe/Berlin"     # IANA name; all times below are local to this zone
+language = "en"                # en | ru
+currency = "EUR"
+address = "1 Example Street, Sample City"
+phone = "+00 000 000 000"
+
+[schedule]
+slot_step_minutes = 30         # a new slot can start every 30 minutes
+booking_horizon_days = 14      # how far ahead clients can book
+min_lead_minutes = 60          # no bookings starting in less than an hour
+reminder_minutes_before = 120
+max_active_bookings_per_user = 3
+
+[schedule.hours]               # omit a day to close it
+mon = "10:00-20:00"
+tue = "10:00-20:00"
+wed = "10:00-20:00"
+thu = "10:00-20:00"
+fri = "10:00-20:00"
+sat = "11:00-17:00"
+
+[[schedule.breaks]]            # daily, e.g. lunch
+start = "14:00"
+end = "15:00"
+
+[[services]]
+id = "haircut"                 # [a-z0-9_-], max 20 chars — used in button payloads
+name = "Haircut"
+duration = 45                  # minutes
+price = 30
+
+[[services]]
+id = "beard"
+name = "Beard trim"
+duration = 30
+price = 20
+
+[[services]]
+id = "combo"
+name = "Haircut + beard"
+duration = 75
+price = 45

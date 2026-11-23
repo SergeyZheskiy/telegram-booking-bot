@@ -1,0 +1,37 @@
+[project]
+name = "telegram-booking-bot"
+version = "1.0.0"
+description = "Telegram bot for booking appointments: services, free-slot calendar, reminders, admin agenda and CSV export."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+    "aiogram>=3.13",
+    "aiosqlite>=0.20",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.8"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["booking_bot*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC", "SIM"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/conftest.py" = ["ASYNC109"]  # signature is defined by aiogram BaseSession

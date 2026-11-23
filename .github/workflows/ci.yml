@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest -q
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t booking-bot .
+      - name: Image starts and validates its config
+        run: |
+          cp config.example.toml config.toml
+          # Without a token the bot must exit with a clear message, proving the image and imports work.
+          out=$(docker run --rm -v "$PWD/config.toml:/app/config.toml:ro" -e CONFIG_PATH=/app/config.toml booking-bot 2>&1 || true)
+          echo "$out"; echo "$out" | grep -q "BOT_TOKEN is not set"
